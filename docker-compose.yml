@@ -1,0 +1,24 @@
+version: "3"
+
+services:
+  web:
+    container_name: emp_service_web
+    image: abhigyani/emp_service_web:0.0.0
+    ports:
+      - "80:80"
+    depends_on:
+      - mysql_db
+    environment:
+      - DATABASE_URL=mysql+pymysql://${MYSQL_DB_USER}:${MYSQL_DB_PASSWORD}@db:3306/${MYSQL_DB_NAME}
+
+  mysql_db:
+    container_name: emp_service_db
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DB_NAME}
+      MYSQL_USER: ${MYSQL_DB_USER}
+      MYSQL_PASSWORD: ${MYSQL_DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_DB_ROOTPASSWORD}
+    ports:
+      - "3306:3306"
