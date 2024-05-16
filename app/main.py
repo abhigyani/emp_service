@@ -3,11 +3,18 @@ Main module
 '''
 from typing import Annotated
 from fastapi import FastAPI, Depends
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from fastapi.security import OAuth2PasswordBearer
+
+from settings import get_settings
+import models
+from database import engine
 
 oauth2 = OAuth2PasswordBearer(tokenUrl="token")
 
+settings = get_settings()
 app = FastAPI()
+
+models.Base.metadata.create_all(bind=engine)
 
 
 @app.get("/test")
