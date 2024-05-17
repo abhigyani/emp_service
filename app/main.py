@@ -2,9 +2,9 @@ from typing import Annotated
 from fastapi import FastAPI, Depends
 from fastapi.security import OAuth2PasswordBearer
 
-from .settings import get_settings
-from .database import engine
-from .models import Base
+from settings import get_settings
+from database import engine
+from models import Base
 
 oauth2 = OAuth2PasswordBearer(tokenUrl="token")
 
