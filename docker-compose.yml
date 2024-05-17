@@ -3,23 +3,36 @@ version: "3"
 services:
   web:
     container_name: emp_service_web
-    image: abhigyani/emp_service_web:0.0.0
+    # build: .
+    # image: emp_service
+    image: abhigyani/emp_service:0.0.0
     ports:
       - "80:80"
     depends_on:
-      - mysql_db
-    environment:
-      - DATABASE_URL=mysql+mysqlconnector://${MYSQL_DB_USER}:${MYSQL_DB_PASSWORD}@${MYSQL_DB_HOST}:${MYSQL_DB_PORT}/${MYSQL_DB_NAME}
+      mysql_db:
+        condition: service_healthy
+    env_file:
+      - path: .env
+        required: true
 
   mysql_db:
     container_name: emp_service_db
     image: mysql:8.0
     restart: always
-    environment:
-      MYSQL_DATABASE: ${MYSQL_DB_NAME}
-      MYSQL_USER: ${MYSQL_DB_USER}
-      MYSQL_PASSWORD: ${MYSQL_DB_PASSWORD}
-      MYSQL_ROOT_PASSWORD: ${MYSQL_DB_ROOTPASSWORD}
-      MYSQL_DATABASE_PORT: ${MYSQL_DB_PORT}
     ports:
       - "3306:3306"
+    environment:
+      MYSQL_DATABASE: dbname
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE_PORT: 3306
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+
+networks:
+  default:
+    name: emp_svc_network

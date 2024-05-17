@@ -1,3 +1,6 @@
+'''
+Settings
+'''
 from typing import Union
 
 from functools import lru_cache
@@ -6,16 +9,23 @@ from pydantic import SecretStr
 
 
 class Settings(BaseSettings):
+    '''
+    Settings
+    '''
     model_config = SettingsConfigDict(extra='ignore', env_file="../.env",)
 
-    mysql_db_name: Union[str, None] = None
-    mysql_db_user: Union[str, None] = None
-    mysql_db_password: Union[SecretStr, None] = None
-    mysql_db_rootpassword: Union[SecretStr, None] = None
-    mysql_db_url: Union[str, None] = None
-    mysql_db_port: Union[int, None] = None
-    mysql_db_host: Union[str, None] = None
+    MYSQL_DB_NAME: Union[str, None] = None
+    MYSQL_DB_USER: Union[str, None] = None
+    MYSQL_DB_PASSWORD: Union[SecretStr, None] = None
+    MYSQL_DB_ROOTPASSWORD: Union[SecretStr, None] = None
+    MYSQL_DB_PORT: Union[int, None] = None
+    MYSQL_DB_HOST: Union[str, None] = None
+    MYSQL_DB_URL: Union[str, None] = None
 
 
+@lru_cache
 def get_settings():
+    '''
+    Method
+    '''
     return Settings()
