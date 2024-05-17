@@ -1,17 +1,10 @@
-'''
-Settings
-'''
 from typing import Union
-
 from functools import lru_cache
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from pydantic import SecretStr
 
 
 class Settings(BaseSettings):
-    '''
-    Settings
-    '''
     model_config = SettingsConfigDict(extra='ignore', env_file="../.env",)
 
     MYSQL_DB_NAME: Union[str, None] = None
@@ -25,7 +18,4 @@ class Settings(BaseSettings):
 
 @lru_cache
 def get_settings():
-    '''
-    Method
-    '''
     return Settings()
