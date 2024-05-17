@@ -1,3 +1,6 @@
+'''
+Entry point for the FastAPI application.
+'''
 from typing import Annotated
 from fastapi import FastAPI, Depends
 from fastapi.security import OAuth2PasswordBearer
